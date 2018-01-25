@@ -1,0 +1,135 @@
+/* colour theme */
+html{
+    overflow-y: scroll;
+}
+
+.dark-bg{
+    background-color: #474849;
+    color: #69d0e4;
+}
+
+.medium-bg{
+    background-color: #0f788d;
+    color: #ffffff !important;
+}
+
+.ligth-bg{
+    background-color: #69d0e4;
+}
+.black-on-white{
+    color: #474849;
+}
+
+/*bootstrap overrides*/
+.navbar .glyphicon:before {
+  margin-left: 10px;
+}
+
+.navbar .dropdown-toggle, 
+.navbar .dropdown-menu li button{
+    border: 0;
+    border-radius: 0px !important;
+    margin-top: -1px;
+}
+
+.fb-bg{
+    background-color: #3b5998;
+}
+
+.navbar .dropdown-toggle, 
+.navbar .dropdown-toggle:active,
+.navbar .dropdown-toggle:visited{
+    background-color: #0f788d !important;
+}
+.navbar .dropdown-menu li button,
+.navbar .dropdown-menu li button:active,
+.navbar .dropdown-menu li button:focus,
+.navbar .dropdown-menu li button:visited{
+    background-color: transparent !important;
+    border: 0 none;
+    outline: 0 none;
+    box-shadow: none;
+}
+.navbar .dropdown-toggle:hover, 
+.navbar .dropdown-menu li button:hover{
+    text-decoration: underline;
+}
+
+
+
+#logoImg{
+    height: 130px;
+}
+
+.jumbotron{
+    margin-bottom: 0px;
+    border-radius: 0px !important;
+    min-width: 465px;
+}
+.navbar{
+    border-radius: 0px 0px 5px 5px;
+    min-width: 465px;
+}
+
+#result-panel, .form-container{
+    width:80%;
+    min-width: 465px;
+    margin: 0 auto;
+    border: 0 none;
+}
+
+.feedbacks-well,
+.personal-well{
+    margin: 20px;
+}
+
+
+.feedbacks-well .row>*:first-child,
+.feedbacks-well .row>*:last-child{
+   text-align: center;
+   
+}
+.row.is-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.row.is-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-panel{
+    padding:10px;
+}
+
+#wifi-list-descriptor, .detail-first-row{
+    padding-top: 10px;
+    margin: 0px;
+}
+
+#result-panel-heading{
+    background-color: #0f788d !important;
+    color: white !important;
+}
+#result-panel-heading .glyphicon{
+    font-size: 1.4em;
+    margin-left: 20px;
+    float:right;
+}
+.panel-body{
+    padding: 0;
+}
+
+#accordion .panel .panel-heading{
+    background-color: white;
+    border-radius: 0px !important;
+}
+#accordion .panel:first-child{
+    padding-top: 5px;
+}
+
+.panel-group .panel{margin-bottom: 8px;
+                    margin-top: 4px;
+                    margin-right: 4px;
+                    margin-left: 4px;}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">                                                                                 <!-- aggiungere sempre il tag per la codifica dei caratteri!-->
+        <meta name="viewport" 
+              content="width=device-width, initial-scale=1">                                                    <!-- aggiungere sempre il tag viewport!-->
+        
+        <link rel="icon" 
+              type="image/png" 
+              href="favicon.ico">
+        
+        <link rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">                     <!-- Latest compiled and minified CSS -->
+        
+        <link rel="stylesheet" 
+              href="./style/wiFinderStyle.css">
+        
+        <link rel="stylesheet" 
+              href="./style/mapStyle.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>                <!-- jQuery library -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>             <!-- Latest compiled JavaScript -->
+        
+        <link rel="stylesheet" 
+              href="./style/star-rating.css" type="text/css">
+    </head>
+    <body class="ligth-bg">
+        
+        <script>
+            window.fbAsyncInit = function() {
+                // FB JavaScript SDK configuration and setup
+                FB.init({
+                    appId      : '142365596454351', // FB App ID
+                    cookie     : true,  // enable cookies to allow the server to access the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.8' // use graph api version 2.8
+                });
+    
+                // Check whether the user already logged in
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        //display user data
+                        getFbUserData();
+                    }
+                });
+            };
+
+            // Load the JavaScript SDK asynchronously
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            // Facebook login with JavaScript SDK
+            function fbLogin() {
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        // Get and display the user profile data
+                        getFbUserData();
+                    } else {
+                        document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.';
+                    }
+                }, {scope: 'email'});
+            }
+
+            // Fetch the user profile data from facebook
+            function getFbUserData(){
+                FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'},
+                function (response) {
+                    document.getElementById('log-b').setAttribute("onclick","fbLogout()");
+                    document.getElementById('fbLink').innerHTML = 'Logout from Facebook';
+                    document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.first_name + '!';
+                    document.getElementById('userData').innerHTML = '<p><b>FB ID:</b> '+response.id+'</p><p><b>Name:</b> '+response.first_name+' '+response.last_name+'</p><p><b>Email:</b> '+response.email+'</p><p><b>Gender:</b> '+response.gender+'</p><p><b>Locale:</b> '+response.locale+'</p><p><b>Picture:</b> <img src="'+response.picture.data.url+'"/></p><p><b>FB Profile:</b> <a target="_blank" href="'+response.link+'">click to view profile</a></p>';
+                    document.getElementById('menu-log').innerHTML = "<span><img style='border-radius:50%;' width='40' height='40' src='"+response.picture.data.url+"'></span>  Logout";
+                });
+            }
+
+            // Logout from facebook
+            function fbLogout() {
+                FB.logout(function() {
+                    document.getElementById('log-b').setAttribute("onclick","fbLogin()");
+                    document.getElementById('fbLink').innerHTML = "Login with Facebook";
+                    document.getElementById('userData').innerHTML = '';
+                    document.getElementById('status').innerHTML = 'You have successfully logout from Facebook.';
+                    document.getElementById('menu-log').innerHTML = "Login <span class='glyphicon glyphicon-user'></span><span class='glyphicon glyphicon-menu-down'></span>";
+        
+                });
+            }
+        </script>
+        <div class="container-fluid">
+            <div class="jumbotron dark-bg">
+                <img class="center-block" src="images/wifinderLogo.png" alt="WiFinder" id="logoImg">              
+            </div>
+            
+            <nav class="navbar medium-bg">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown dark-bg">
+                            <a class="dropdown-toggle medium-bg" data-toggle="dropdown" href="#">
+                                <strong class="h4" id="menu-log">
+                                    Login<span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-menu-down"></span>
+                                </strong>
+                            </a>
+                            <ul style="margin-top: 5px;" class="dropdown-menu fb-bg">
+                                
+                                <li><button id="log-b" style="color: white; text-decoration: none;" type="button" onclick="fbLogin()" class="btn btn-default btn-block" data-toggle="modal" data-target="#facebook-login-modal"><strong id="fbLink">Login with Facebook</strong></button></li>
+                            </ul>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="form-container" style="margin-left: 20%;" >
+                <form>
+                    <label>Search open hotspots near you:</label>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="positionInput" placeholder="Insert Position">
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary" onclick="getWiFiList(); return false">Search</button>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <hr>
+            
+            <div id="insertButton" class="text-center">
+                <button class="btn btn-primary" onclick="showForm()">Insert new hotspot</button>
+            </div>
+            <br>
+            
+                <div id="ppp" class="panel panel-primary" style="width:250px; margin-left:43%; margin-top: -3%; display: none;">
+                    <div class="panel-heading" style="height:50px;" >
+                        <h4>Hotspot details</h4>
+                    </div>  
+                    <div class="panel-body">
+                        <form>
+                            <br>
+                            <label for="inputFssid" class="sr-only">SSID</label>
+                            <input  type="text" id="inputFssid" class="form-control" placeholder="SSID" required autofocus/> 
+                            <label for="inputFdescription" class="sr-only">Description</label>
+                            <br>
+                            <input type="text" id="inputFdescription" class="form-control" placeholder="Description" required autofocus/> 
+                        </form>
+                        <br>
+                        <div class="btn-block text-center">
+                            <button class="btn btn-sm btn-primary " style="width: 50%;" onclick="newWifi(); return false">Insert hotspot</button>
+                        </div>
+                        <br>
+                    
+                </div>
+            </div>
+            
+            <br> <br>
+            <div class='panel panel-default' id='result-panel'>
+            </div>
+            
+            
+            <!-- Facebook Login -->
+            <div id="facebook-login-modal" class="modal fade black-on-white" role="dialog">
+                <div class="panel panel-default" style="width:350px; height:350px; text-align:center; margin-left: 40%; margin-top: 15%;">
+                    
+                    <div id="status" class="panel-heading"></div>
+                    <div class="panel-body">
+                        <div id="userData"></div>
+                    </div>
+                </div>
+            </div>
+            <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHbFTaIZIzKR7gu3bGBvtPYFgr8yFzxkY&callback=initMap">
+            </script>
+            
+            <script src="javascript/map.js"></script>
+            <script src="javascript/app.js"></script>
+            <script src="javascript/review.js"></script>
+            <script src="javascript/insertWifi.js"></script>
+            
+            <p id="lat" style="display:none;"></p>
+            <p id="lon" style="display:none;"></p>
+            <p id="hidden-address" style="display:none;"></p>
+            <div id="hidden-ssid" style="display:none;"></div>
+            <p id="hidden-index" style="display:none;"></p>
+            
+            <script>
+                var index=-1;
+                $(document).ready(function(){
+                    getLocation();
+                });
+                $(document).on('click', 'textarea', function () {
+                    index=this.id;
+                    $("#hidden-index").text("");
+                    $("#hidden-index").text(index);
+                });
+            </script>
+            
+            
+    </body>
+    
+</html>
