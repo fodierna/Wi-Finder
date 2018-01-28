@@ -1,0 +1,23 @@
+INSERIMENTO WIFI
+Nome service: insertWiFi
+Lista parametri
+-ssid
+-lon
+-lat
+-description
+-userId
+
+INSERIMENTO FEEDBACK
+Nome service: insertFeedback
+Lista parametri
+-rate
+-comment
+-feedbackDate
+-userId
+-wifiId
+
+RECUPERO FEEDBACK DA WIFI
+Nome service: getFeedbackListFromWifi
+Lista parametri
+-id
+
