@@ -1,5 +1,5 @@
 # WiFinder
-This is a web app built for Advanced Techniques and Architectures for Software Development (TAASS) exam at University of Turin.
+This is a web app built for Advanced Techniques and Architectures for Software Development exam at University of Turin.
 
 ## Description of content
 wifinder2 contains three directories:
